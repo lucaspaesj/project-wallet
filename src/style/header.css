@@ -1,0 +1,15 @@
+.headerWallet {
+  align-items: center;
+  background-color: rgb(33, 109, 90); 
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+h1, h3, p {
+  display: flex;
+}
+
+h1, h3 {
+  align-items: center;
+}
