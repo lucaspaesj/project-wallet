@@ -5,7 +5,7 @@ import '../style/header.css';
 
 class Header extends React.Component {
   render() {
-    const { email } = this.props;
+    const { email, expenses } = this.props;
     return (
       <header className="headerWallet">
         <h1>
@@ -17,7 +17,11 @@ class Header extends React.Component {
         </h3>
         <h3>
           Despesa total:
-          <p data-testid="total-field">0</p>
+          <p data-testid="total-field">
+            {
+              expenses[0] ? expenses.reduce((partialSum, a) => partialSum + a, 0) : 0
+            }
+          </p>
           <p data-testid="header-currency-field">BRL</p>
         </h3>
       </header>
@@ -27,10 +31,21 @@ class Header extends React.Component {
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
+  expenses: state.wallet.expenses[0]
+    ? state.wallet.expenses.map((expense) => Math.trunc(Number((expense.value
+      * expense.exchangeRates[expense.currency].ask * 100))) / 100)
+    : [0],
 });
 
 Header.propTypes = {
   email: PropTypes.string.isRequired,
+  expenses: PropTypes.arrayOf(
+    PropTypes.number,
+  ),
+};
+
+Header.defaultProps = {
+  expenses: 0,
 };
 
 export default connect(mapStateToProps, null)(Header);

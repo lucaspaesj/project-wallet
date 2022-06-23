@@ -1,5 +1,5 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
-import { FETCHED, ERROR } from '../actions';
+import { FETCHED, ERROR, ADD_EXPENSE } from '../actions';
 
 const INITTIAL_STATE = {
   currencies: [],
@@ -18,6 +18,22 @@ const wallet = (state = INITTIAL_STATE, action) => {
     };
   case ERROR:
     return state;
+  case ADD_EXPENSE:
+    return {
+      ...state,
+      expenses: [
+        ...state.expenses,
+        {
+          id: state.expenses[0] ? state.expenses[state.expenses.length - 1].id + 1 : 0,
+          value: action.payload.value,
+          description: action.payload.description,
+          currency: action.payload.currency,
+          method: action.payload.method,
+          tag: action.payload.tag,
+          exchangeRates: action.payload.data,
+        },
+      ],
+    };
   default:
     return state;
   }

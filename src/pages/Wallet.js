@@ -2,15 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
-import { fetchApi } from '../actions';
+import { fetchApi, fetchApiExchange } from '../actions';
+
+const ALIMENTACAO = 'Alimentação';
 
 class Wallet extends React.Component {
   state = {
-    valueInput: '',
+    valueInput: 0,
     descriptionInput: '',
     currencieInput: 'USD',
     methodInput: 'Dinheiro',
-    tagInput: 'Alimentação',
+    tagInput: ALIMENTACAO,
   }
 
   async componentDidMount() {
@@ -22,6 +24,33 @@ class Wallet extends React.Component {
     const { name, value } = target;
     this.setState({
       [name]: value,
+    });
+  }
+
+  onClickSubmit = async (e) => {
+    const { dispatch } = this.props;
+    const {
+      valueInput,
+      descriptionInput,
+      currencieInput,
+      methodInput,
+      tagInput,
+    } = this.state;
+    e.preventDefault();
+    const stateInputs = {
+      value: valueInput,
+      description: descriptionInput,
+      currency: currencieInput,
+      method: methodInput,
+      tag: tagInput,
+    };
+    await dispatch(fetchApiExchange(stateInputs));
+    this.setState({
+      valueInput: 0,
+      descriptionInput: '',
+      currencieInput: 'USD',
+      methodInput: 'Dinheiro',
+      tagInput: ALIMENTACAO,
     });
   }
 
@@ -37,7 +66,10 @@ class Wallet extends React.Component {
     return (
       <>
         <Header />
-        <form>
+        <form
+          className="addExpense"
+          onSubmit={ this.onClickSubmit }
+        >
           <label htmlFor="value-input">
             Valor:
             <input
@@ -98,13 +130,18 @@ class Wallet extends React.Component {
               value={ tagInput }
               onChange={ this.onChangeInput }
             >
-              <option>Alimentação</option>
+              <option>{ ALIMENTACAO }</option>
               <option>Lazer</option>
               <option>Trabalho</option>
               <option>Transporte</option>
               <option>Saúde</option>
             </select>
           </label>
+          <button
+            type="submit"
+          >
+            Adicionar despesa
+          </button>
         </form>
       </>
     );
