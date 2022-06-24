@@ -55,7 +55,7 @@ class Wallet extends React.Component {
   }
 
   render() {
-    const { currencies } = this.props;
+    const { currencies, expenses } = this.props;
     const {
       valueInput,
       descriptionInput,
@@ -146,16 +146,42 @@ class Wallet extends React.Component {
         <form>
           <table>
             <tr>
-              <th>Descrição</th>
-              <th>Tag</th>
-              <th>Método de pagamento</th>
-              <th>Valor</th>
-              <th>Moeda</th>
-              <th>Câmbio utilizado</th>
-              <th>Valor convertido</th>
-              <th>Moeda de conversão</th>
-              <th>Editar/Excluir</th>
+              <th scope="col">Descrição</th>
+              <th scope="col">Tag</th>
+              <th scope="col">Método de pagamento</th>
+              <th scope="col">Valor</th>
+              <th scope="col">Moeda</th>
+              <th scope="col">Câmbio utilizado</th>
+              <th scope="col">Valor convertido</th>
+              <th scope="col">Moeda de conversão</th>
+              <th scope="col">Editar/Excluir</th>
             </tr>
+            {
+              expenses[0] && expenses.map((expense) => (
+                <tr key={ expense.id }>
+                  <td>{ expense.description }</td>
+                  <td>{ expense.tag }</td>
+                  <td>{ expense.method }</td>
+                  <td>{ Number(expense.value).toFixed(2) }</td>
+                  <td>{ expense.exchangeRates[expense.currency].name }</td>
+                  <td>
+                    {
+                      Number(
+                        expense.exchangeRates[expense.currency].ask,
+                      ).toFixed(2)
+                    }
+                  </td>
+                  <td>
+                    {
+                      Math.trunc(Number((expense.value
+                        * expense.exchangeRates[expense.currency].ask * 100))) / 100
+                    }
+                  </td>
+                  <td>Real</td>
+                  <td>Editar/Excluir</td>
+                </tr>
+              ))
+            }
           </table>
         </form>
       </>
@@ -168,10 +194,29 @@ Wallet.propTypes = {
   currencies: PropTypes.arrayOf(
     PropTypes.string.isRequired,
   ).isRequired,
+  expenses: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string,
+      description: PropTypes.string,
+      currency: PropTypes.string,
+      method: PropTypes.string,
+      tag: PropTypes.string,
+      exchangeRates: PropTypes.objectOf(
+        PropTypes.objectOf(
+          PropTypes.string,
+        ),
+      ),
+    }),
+  ),
+};
+
+Wallet.defaultProps = {
+  expenses: [],
 };
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
+  expenses: state.wallet.expenses,
 });
 
 export default connect(mapStateToProps, null)(Wallet);
