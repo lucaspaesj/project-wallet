@@ -1,5 +1,5 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
-import { FETCHED, ERROR, ADD_EXPENSE } from '../actions';
+import { FETCHED, ERROR, ADD_EXPENSE, REMOVE_EXPENSE } from '../actions';
 
 const INITTIAL_STATE = {
   currencies: [],
@@ -33,6 +33,11 @@ const wallet = (state = INITTIAL_STATE, action) => {
           exchangeRates: action.payload.data,
         },
       ],
+    };
+  case REMOVE_EXPENSE:
+    return {
+      ...state,
+      expenses: state.expenses.filter((expense) => expense.id !== action.payload),
     };
   default:
     return state;

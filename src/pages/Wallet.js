@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
-import { fetchApi, fetchApiExchange } from '../actions';
+import { fetchApi, fetchApiExchange, deleteExpense } from '../actions';
+import '../style/wallet.css';
 
 const ALIMENTACAO = 'Alimentação';
 
@@ -55,7 +56,7 @@ class Wallet extends React.Component {
   }
 
   render() {
-    const { currencies, expenses } = this.props;
+    const { currencies, expenses, dispatch } = this.props;
     const {
       valueInput,
       descriptionInput,
@@ -144,7 +145,7 @@ class Wallet extends React.Component {
           </button>
         </form>
         <form>
-          <table>
+          <table className="tableExpenses">
             <tr>
               <th scope="col">Descrição</th>
               <th scope="col">Tag</th>
@@ -163,7 +164,11 @@ class Wallet extends React.Component {
                   <td>{ expense.tag }</td>
                   <td>{ expense.method }</td>
                   <td>{ Number(expense.value).toFixed(2) }</td>
-                  <td>{ expense.exchangeRates[expense.currency].name }</td>
+                  <td>
+                    {
+                      expense.exchangeRates[expense.currency].name
+                    }
+                  </td>
                   <td>
                     {
                       Number(
@@ -178,7 +183,20 @@ class Wallet extends React.Component {
                     }
                   </td>
                   <td>Real</td>
-                  <td>Editar/Excluir</td>
+                  <td>
+                    <button
+                      type="button"
+                    >
+                      Editar
+                    </button>
+                    <button
+                      type="button"
+                      data-testid="delete-btn"
+                      onClick={ () => dispatch(deleteExpense(expense.id)) }
+                    >
+                      Excluir
+                    </button>
+                  </td>
                 </tr>
               ))
             }

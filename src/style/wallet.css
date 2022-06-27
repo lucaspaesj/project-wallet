@@ -1,0 +1,39 @@
+body {
+  background-color: rgb(170, 170, 170);
+}
+
+.tableExpenses {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  border: 2px solid #4F7849;
+  background-color: #EEEEEE;
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+}
+
+td,
+th {
+  border: 1px solid #4A4A4A;
+  padding: 3px 2px;
+}
+
+td {
+  font-size: 17px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #181818;
+}
+
+.addExpense {
+  background-color: rgb(40, 40, 40);
+  border: 1px solid black;
+  color: rgb(255, 255, 255);
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.addExpense label {
+  display: flex;
+  flex-direction: column;
+}
