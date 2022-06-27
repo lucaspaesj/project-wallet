@@ -189,6 +189,7 @@ class Wallet extends React.Component {
                     >
                       Editar
                     </button>
+                    {/* delete */}
                     <button
                       type="button"
                       data-testid="delete-btn"
