@@ -1,19 +1,16 @@
 .headerWallet {
   align-items: center;
   background-color: rgb(24, 24, 24);
-  color: rgb(255, 255, 255);
+  color: white;
   display: flex;
   justify-content: space-between;
   padding: 20px;
 }
 
-h1,
-h3,
-p {
+h1 , h3 , p {
   display: flex;
 }
 
-h1,
-h3 {
+h1 , h3 {
   align-items: center;
 }
