@@ -1,5 +1,3 @@
-# 🚧 README em construção 🚧
-
 Neste projeto, desenvolvemos uma carteira digital, a qual guarda as informações dos gastos realizados, bem como faz a conversão da moeda selecionada para BRL, de acordo com a API externa.
 
 
